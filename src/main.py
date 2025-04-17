@@ -1,6 +1,7 @@
 from api import HeadHunterAPI
 from vacancy import Vacancy
 from json_saver import JSONSaver
+from utils import get_vacancies_by_salary, filter_vacancies, sort_vacancies, get_top_vacancies, print_vacancies
 
 def user_interaction():
     hh_api = HeadHunterAPI()

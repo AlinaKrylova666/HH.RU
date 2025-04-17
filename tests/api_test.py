@@ -3,7 +3,7 @@ from unittest.mock import patch
 from src.api import HeadHunterAPI
 
 class TestHeadHunterAPI(unittest.TestCase):
-    @patch('api.requests.get')
+    @patch('src.api.requests.get')
     def test_get_vacancies(self, mock_get):
         # Мок ответа от API
         mock_response = {
@@ -27,7 +27,7 @@ class TestHeadHunterAPI(unittest.TestCase):
         self.assertEqual(len(vacancies), 1)
         self.assertEqual(vacancies[0]['name'], 'Python Developer')
 
-    @patch('api.requests.get')
+    @patch('src.api.requests.get')
     def test_api_connection_error(self, mock_get):
         # Мок ошибки подключения
         mock_get.return_value.status_code = 404
