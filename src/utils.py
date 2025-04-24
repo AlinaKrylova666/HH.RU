@@ -3,9 +3,16 @@ def filter_vacancies(vacancies, keywords):
     return [vacancy for vacancy in vacancies if any(keyword.lower() in vacancy.description.lower() for keyword in keywords)]
 
 def get_vacancies_by_salary(vacancies, salary_range):
-    """Возвращает вакансии, которые находятся в указанном диапазоне зарплат."""
-    min_salary, max_salary = map(int, salary_range.split('-'))
-    return [vacancy for vacancy in vacancies if min_salary <= vacancy._get_salary_value() <= max_salary]
+    try:
+        min_salary, max_salary = map(int, salary_range.split('-'))
+    except ValueError:
+        print("Ошибка: Диапазон зарплат должен быть в формате 'min-max'.")
+        return []  # Возвращаем пустой список, если формат некорректен
+
+    return [
+        vacancy for vacancy in vacancies
+        if vacancy._get_salary_value() >= min_salary and vacancy._get_salary_value() <= max_salary
+    ]
 
 def sort_vacancies(vacancies):
     """Сортирует вакансии по зарплате в порядке убывания."""

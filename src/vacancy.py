@@ -33,8 +33,16 @@ class Vacancy:
             Vacancy(
                 item['name'],
                 item['alternate_url'],
-                str(item.get('salary', {}).get('from', "Зарплата не указана")),  # Приведение к строке
+                str((item.get('salary') or {}).get('from', "Зарплата не указана")),  # Приведение к строке
                 item.get('snippet', {}).get('requirement', 'Описание не указано')
             )
             for item in vacancies_json
         ]
+
+    def to_dict(self) -> dict:
+        return {
+            "title": self.title,
+            "url": self.url,
+            "salary": self.salary,
+            "description": self.description,
+        }

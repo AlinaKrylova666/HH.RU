@@ -3,6 +3,9 @@ import os
 from abc import ABC, abstractmethod
 from typing import List, Dict
 
+from src.vacancy import Vacancy
+
+
 class FileSaver(ABC):
     @abstractmethod
     def add_vacancy(self, vacancy: Dict) -> None:
@@ -20,22 +23,25 @@ class JSONSaver(FileSaver):
     def __init__(self, filename: str = 'vacancies.json'):
         self._filename = filename
 
-    def add_vacancy(self, vacancy: Dict) -> None:
+    def add_vacancy(self, vacancy: Vacancy):
         vacancies = self.get_vacancies()
-        if vacancy not in vacancies:
-            vacancies.append(vacancy)
-            self._save_vacancies(vacancies)
+        vacancies.append(vacancy.to_dict())  # Преобразование объекта Vacancy в словарь
+        self._save_vacancies(vacancies)
 
     def delete_vacancy(self, vacancy: Dict) -> None:
         vacancies = self.get_vacancies()
         vacancies = [v for v in vacancies if v['url'] != vacancy['url']]
         self._save_vacancies(vacancies)
 
-    def get_vacancies(self) -> List[Dict]:
-        if os.path.exists(self._filename):
-            with open(self._filename, 'r', encoding='utf-8') as f:
+    def get_vacancies(self):
+        if not os.path.exists(self._filename):
+            return []
+        try:
+            with open(self._filename, "r", encoding="utf-8") as f:
                 return json.load(f)
-        return []
+        except (json.JSONDecodeError, FileNotFoundError):
+            print("Ошибка: Некорректный или пустой JSON-файл. Возвращаем пустой список.")
+            return []
 
     def _save_vacancies(self, vacancies: List[Dict]) -> None:
         with open(self._filename, 'w', encoding='utf-8') as f:
