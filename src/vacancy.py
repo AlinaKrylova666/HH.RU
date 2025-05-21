@@ -3,6 +3,15 @@ from typing import Optional, List
 class Vacancy:
     slots = ('title', 'url', 'salary', 'description')
 
+    def __str__(self) -> str:
+        """
+        Return a string representation of the vacancy.
+
+        :return: A formatted string with vacancy details.
+        """
+        salary_info = self.salary if self.salary else "Не указана"
+        return f"Вакансия: {self.title}\nURL: {self.url}\nЗарплата: {salary_info}\nОписание: {self.description}"
+
     def __init__(self, title: str, url: str, salary: Optional[str], description: str):
         self.title = title
         self.url = url
@@ -46,3 +55,27 @@ class Vacancy:
             "salary": self.salary,
             "description": self.description,
         }
+
+
+    def __init__(self, title: str, url: str, salary: Optional[str], description: Optional[str]):
+        """
+        Initialize a vacancy with title, URL, salary, and description.
+
+        :param title: The title of the vacancy.
+        :param url: The URL of the vacancy.
+        :param salary: The salary for the vacancy.
+        :param description: The description of the vacancy.
+        """
+        self.title = title
+        self.url = url
+        self.salary = salary
+        self.description = self._validate_description(description)
+
+    def _validate_description(self, description: Optional[str]) -> str:
+        """
+        Validate the description, returning 'Не указано' if None.
+
+        :param description: The description to validate.
+        :return: Validated description.
+        """
+        return description if description is not None else "Не указано"

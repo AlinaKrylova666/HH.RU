@@ -20,13 +20,18 @@ class FileSaver(ABC):
         pass
 
 class JSONSaver(FileSaver):
-    def __init__(self, filename: str = 'vacancies.json'):
-        self._filename = filename
+    def __init__(self):
+        """Initialize an empty list to store vacancies."""
+        self.vacancies = []
 
-    def add_vacancy(self, vacancy: Vacancy):
-        vacancies = self.get_vacancies()
-        vacancies.append(vacancy.to_dict())  # Преобразование объекта Vacancy в словарь
-        self._save_vacancies(vacancies)
+    def add_vacancy(self, vacancy: dict) -> None:
+        """
+        Add a vacancy to the list if it is not already present.
+
+        :param vacancy: A dictionary with vacancy details.
+        """
+        if vacancy not in self.vacancies:
+            self.vacancies.append(vacancy)
 
     def delete_vacancy(self, vacancy: Dict) -> None:
         vacancies = self.get_vacancies()
@@ -46,3 +51,6 @@ class JSONSaver(FileSaver):
     def _save_vacancies(self, vacancies: List[Dict]) -> None:
         with open(self._filename, 'w', encoding='utf-8') as f:
             json.dump(vacancies, f, ensure_ascii=False, indent=4)
+
+
+        """Class to save and manage job vacancies in JSON format."""
