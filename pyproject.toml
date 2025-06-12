@@ -8,6 +8,8 @@ packages = [{include = "pythonhh"}]
 
 [tool.poetry.dependencies]
 python = "^3.13"
+f = "^0.0.1"
+python-dotenv = "^1.1.0"
 
 
 [build-system]

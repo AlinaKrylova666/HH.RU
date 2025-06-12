@@ -3,6 +3,9 @@ import os
 from abc import ABC, abstractmethod
 from typing import List, Dict
 
+from src.vacancy import Vacancy
+
+
 class FileSaver(ABC):
     @abstractmethod
     def add_vacancy(self, vacancy: Dict) -> None:
@@ -20,10 +23,10 @@ class JSONSaver(FileSaver):
     def __init__(self, filename: str = 'vacancies.json'):
         self._filename = filename
 
-    def add_vacancy(self, vacancy: Dict) -> None:
+    def add_vacancy(self, vacancy: Vacancy) -> None:
         vacancies = self.get_vacancies()
-        if vacancy not in vacancies:
-            vacancies.append(vacancy)
+        if vacancy.to_dict() not in vacancies:
+            vacancies.append(vacancy.to_dict())
             self._save_vacancies(vacancies)
 
     def delete_vacancy(self, vacancy: Dict) -> None:
@@ -33,8 +36,11 @@ class JSONSaver(FileSaver):
 
     def get_vacancies(self) -> List[Dict]:
         if os.path.exists(self._filename):
-            with open(self._filename, 'r', encoding='utf-8') as f:
-                return json.load(f)
+            try:
+                with open(self._filename, 'r', encoding='utf-8') as f:
+                    return json.load(f)
+            except Exception as e:
+                return []
         return []
 
     def _save_vacancies(self, vacancies: List[Dict]) -> None:

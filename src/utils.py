@@ -5,7 +5,7 @@ def filter_vacancies(vacancies, keywords):
 def get_vacancies_by_salary(vacancies, salary_range):
     """Возвращает вакансии, которые находятся в указанном диапазоне зарплат."""
     min_salary, max_salary = map(int, salary_range.split('-'))
-    return [vacancy for vacancy in vacancies if min_salary <= vacancy._get_salary_value() <= max_salary]
+    return [vacancy for vacancy in vacancies if min_salary <= vacancy.salary <= max_salary]
 
 def sort_vacancies(vacancies):
     """Сортирует вакансии по зарплате в порядке убывания."""
@@ -18,4 +18,4 @@ def get_top_vacancies(vacancies, top_n):
 def print_vacancies(vacancies):
     """Выводит информацию о вакансиях."""
     for vacancy in vacancies:
-        print(vacancy.__dict__)
+        print(vacancy.to_dict())

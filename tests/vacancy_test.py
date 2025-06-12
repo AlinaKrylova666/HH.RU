@@ -11,9 +11,6 @@ class TestVacancy(unittest.TestCase):
         self.assertEqual(self.vacancy1.salary, "100000")
         self.assertEqual(self.vacancy3.salary, "Зарплата не указана")
 
-    def test_get_salary_value(self):
-        self.assertEqual(self.vacancy1._get_salary_value(), 100000)
-        self.assertEqual(self.vacancy3._get_salary_value(), 0)
 
     def test_comparison_operators(self):
         self.assertTrue(self.vacancy1 < self.vacancy2)
